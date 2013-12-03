@@ -3,7 +3,7 @@
 #  Version: 0.1 (Jan 26, 2010)
 #  Author: Joachim Daiber (jo.daiber@fu-berlin.de)
 # =============================================================================
-from multiprocessing import Pool
+#from multiprocessing import Pool
 
 # =============================================================================
 #
@@ -55,7 +55,7 @@ import os
 import wikiextractor
 
 prefix = 'http://en.wikipedia.org/wiki/'
-number_of_workers = 4
+#number_of_workers = 4
 keep_anchors = False
 
 """
@@ -141,7 +141,7 @@ def process_page(page):
 def process_data(input_file, wiki_extractor, output_splitter):
     
     # Set up pool of worker processes
-    pool = Pool(processes=number_of_workers)
+    #pool = Pool(processes=number_of_workers)
     
     pages = []    
     page = []
@@ -154,13 +154,13 @@ def process_data(input_file, wiki_extractor, output_splitter):
             if len(pages) < 10000 :
                 pages.append(page)
             else:
-                map((lambda x: output_splitter.write(x) if x is not None else None), pool.map(process_page, pages))
+                map((lambda x: output_splitter.write(x) if x is not None else None), map(process_page, pages))
                 pages = []
         else:
             page.append(line)
 
     if len(pages) > 0:
-        map((lambda x: output_splitter.write(x) if x is not None else None), pool.map(process_page, pages))
+        map((lambda x: output_splitter.write(x) if x is not None else None), map(process_page, pages))
 
 
 def main():
